@@ -1,4 +1,14 @@
 import axios, { AxiosRequestConfig, Method } from "axios";
+import { Route } from "@custom-types/Route";
+import { KeyValuePair } from "@custom-types/KeyValuePair";
+import { GenericObject } from "@custom-types/GenericObject";
+import { BaseItem } from "@custom-types/BaseItem";
+import { ApplyType } from "@custom-types/ApplyType";
+import { CouponCode } from "@custom-types/CouponCode";
+import { GiftCardCode } from "@custom-types/GiftCardCode";
+import { CreatorCode } from "@custom-types/CreatorCode";
+import { Data } from "@custom-types/Data";
+import { Message } from "@custom-types/Message";
 
 /**
  * @constant baseUrl
@@ -8,115 +18,20 @@ import axios, { AxiosRequestConfig, Method } from "axios";
  */
 const baseUrl: string = "https://headless.tebex.io";
 
-/**
- * @type {Data}
- * @description The data returned from the Tebex Headless API
- *
- * @type {T} The type of data to be returned
- */
-export type Data<T> = {
-    data: T;
-}
-
-/**
- * @type {Message}
- * @description The message returned from the Tebex Headless API
- *
- * @param {boolean} success Whether the request was successful
- * @param {string} message The message returned from the Tebex Headless API
- */
-export type Message = {
-    success: boolean;
-    message: string;
-}
-
-/**
- * @type {GenericObject}
- * @description A generic object
- */
-export type GenericObject = string | number | boolean | null | undefined;
-
-/**
- * @type {Route}
- * @description The route of the Tebex Headless API
- *
- * @param {string} accounts The accounts route
- * @param {string} baskets The baskets route
- */
-export type Route = "accounts" | "baskets";
-
-/**
- * @type {ApplyType}
- * @description The type of the apply request
- *
- * @param {string} coupons The coupons type
- * @param {string} giftcards The giftcards type
- * @param {string} creator-codes The creator codes type
- */
-export type ApplyType = "coupons" | "giftcards" | "creator-codes";
-
-/**
- * @type {KeyValuePair}
- * @description A key value pair
- *
- * @type {K} The type of the key
- * @type {V} The type of the value
- */
-export type KeyValuePair<K extends string | number, V> = {
-    [key in K]: V;
-};
-
-/**
- * @type {BaseItem}
- * @description The base item object for the package and category objects
- *
- * @param {number} id The ID of the base item
- * @param {string} name The name of the base item
- */
-export type BaseItem = {
-    id: number;
-    name: string;
-}
-
-/**
- * @type {CouponCodeBody}
- * @description The coupon code object for the body of the request
- *
- * @param {string} coupon_code The coupon code to apply or remove
- */
-export type CouponCode = {
-    coupon_code: string;
-}
-
-/**
- * @type {GiftCardCodeBody}
- * @description The gift card code object for the body of the request
- *
- * @param {string} card_number The gift card code to apply or remove
- */
-export type GiftCardCode = {
-    card_number: string;
-}
-
-/**
- * @type {CreatorCodeBody}
- * @description The creator code object for the body of the request
- *
- * @param {string} creator_code The creator code to apply or remove
- */
-export type CreatorCode = {
-    creator_code: string;
-}
 
 /**
  * @function Request
  * @description A function to make a request to the Tebex Headless API
  *
+ * @param webstoreIdentifier
+ * @param privateKey
  * @param {Method | string} method The method of the request
+ * @param identifier
  * @param {Route} route The route of the request
  * @param {string} path The path of the request
  * @param {KeyValuePair<string, GenericObject>} params The parameters of the request
  *
+ * @param body
  * @returns {Promise<T>}
  */
 export async function Request<T, Body>(
@@ -219,7 +134,7 @@ export type PackageType = "subscription" | "single" | "both";
  * @param {boolean} disable_gifting Whether gifting is disabled for the package
  * @param {boolean} disable_quantity Whether quantity is disabled for the package
  * @param {string | null} expiration_date The expiration date of the package
- * @param {ShortCategory} category The category of the package
+ * @param {BaseItem} category The category of the package
  * @param {number} base_price The base price of the package
  * @param {number} sales_tax The sales tax of the package
  * @param {number} total_price The total price of the package
